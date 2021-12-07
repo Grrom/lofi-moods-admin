@@ -1,0 +1,60 @@
+@import "../../styles/presets";
+@import "../../styles/hovers";
+@import "../../styles/mixins";
+
+#sidebar {
+  padding-top: 14vh;
+  flex-grow: 1;
+  background-color: $primary;
+  color: white;
+
+  @include desktop {
+    max-width: 16vw;
+    min-width: 16vw;
+  }
+
+  @include mobile {
+    display: none;
+  }
+
+  @extend .default-padding;
+  @extend .box-shadow;
+
+  .divider {
+    border-bottom: 0.4px solid $blackLight;
+  }
+
+  .active {
+    background-color: $secondary;
+  }
+
+  .records-container {
+    align-self: flex-end;
+    background-color: $primaryLight;
+    margin-left: 20px;
+
+    @extend .rounded-border;
+  }
+
+  .sidebar-item {
+    display: flex;
+    flex-wrap: expand;
+    align-items: center;
+    position: relative;
+
+    @extend .clickable;
+    @extend .rounded-border;
+    @extend .default-padding;
+    @extend .hover-highlight;
+
+    .badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      padding: 5px 10px;
+      border-radius: 50%;
+      background: red;
+      color: white;
+    }
+  }
+}
