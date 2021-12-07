@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.scss';
+import Content from './components/content/content';
 import NavBar from './components/navbar/navbar';
 import SideBar from './components/sidebar/sidebar';
 
@@ -13,6 +14,7 @@ export default function App() {
       <NavBar selected={selected} select={select} />
       <main>
         <SideBar selected={selected} select={select} />
+        <Content selected={selected} />
       </main>
     </div>
   )

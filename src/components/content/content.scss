@@ -1,0 +1,163 @@
+@import "../../styles/presets";
+@import "../../styles/hovers";
+
+#content {
+  margin-top: 9vh;
+  flex-grow: 9;
+  overflow-y: auto;
+  background-color: $primaryLightest;
+
+  .action-bar {
+    z-index: 10;
+    position: relative;
+
+    @include desktop {
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @extend .default-padding;
+
+    .search-bar {
+      justify-content: center;
+      display: flex;
+
+      .search-field {
+        @include desktop {
+          margin-right: 8px;
+        }
+
+        @extend .rounded-border;
+
+        @include mobile {
+          margin: 10px;
+          padding: 4px;
+          height: 40px;
+        }
+      }
+    }
+
+    .archive-bar {
+      display: flex;
+      align-items: center;
+      color: $primary;
+      text-align: center;
+      justify-content: center;
+
+      @extend .rounded-border;
+
+      h4 {
+        padding-left: 16px;
+      }
+    }
+
+    .action-button {
+      justify-content: center;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      color: white;
+
+      @include mobile {
+        margin: 10px;
+        padding: 4px;
+        height: 40px;
+      }
+
+      @extend .button-primary;
+      @extend .clickable;
+      @extend .rounded-border;
+      @extend .box-shadow;
+    }
+  }
+
+  .content-message {
+    text-align: center;
+    color: $secondary;
+  }
+
+  .content-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+
+    max-height: inherit;
+
+    @extend .default-padding;
+
+    .content-item {
+      z-index: 1;
+      margin-bottom: 16px;
+      border-left: 8px solid $secondary;
+
+      @extend .subtle-hover-grow;
+      @extend .bg-white;
+      @extend .default-padding;
+      @extend .box-shadow;
+      @extend .rounded-border;
+
+      .content-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .record-datas {
+          width: 100%;
+          .key-value-pair {
+            display: flex;
+            justify-content: space-between;
+
+            .key {
+              font-weight: bold;
+              text-transform: capitalize;
+            }
+
+            .value {
+              margin-left: 20px;
+            }
+          }
+        }
+
+        .icons-container {
+          display: flex;
+          @include mobile {
+            flex-direction: column;
+          }
+
+          .icon-container {
+            margin: 8px;
+            background-color: $primary;
+
+            @include mobile {
+              margin: 4px;
+            }
+
+            @extend .rounded-border;
+            @extend .clickable;
+            @extend .box-shadow;
+          }
+        }
+      }
+
+      .event-image {
+        display: block;
+        margin: auto;
+        height: 10vw;
+        max-height: 160px;
+        min-height: 120px;
+
+        @extend .rounded-border;
+      }
+    }
+  }
+}

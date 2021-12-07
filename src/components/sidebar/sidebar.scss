@@ -3,6 +3,7 @@
 @import "../../styles/mixins";
 
 #sidebar {
+  z-index: 1;
   padding-top: 14vh;
   flex-grow: 1;
   background-color: $primary;
