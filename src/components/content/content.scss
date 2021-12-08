@@ -110,8 +110,8 @@
 
       .thumb-icon {
         align-items: center;
-        justify-content: end;
         display: flex;
+        justify-content: flex-end;
 
         .thumbnail {
           height: 70%;

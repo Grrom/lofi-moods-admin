@@ -16,6 +16,20 @@ export default class LofiMoodsApiHelper {
     return apiResponse.data;
   };
 
+  updateMusic = async (id: number, column: string, value: string) => {
+    let path = "/updateMusic";
+
+    let updateMusic: Response = await fetch(`${this.baseUrl}${path}`, {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id, [column]: value }),
+    });
+
+    let apiResponse: apiResponse<any> = await updateMusic.json();
+    console.log(apiResponse);
+    return apiResponse;
+  };
+
   deleteMusic = async (id: number): Promise<any> => {
     let path = "/deleteMusic";
 

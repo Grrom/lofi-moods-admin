@@ -1,7 +1,7 @@
 import "./navbar.scss";
 import hamburger from "../../assets/hamburger.svg";
 import SideBar from "../sidebar/sidebar";
-import Helpers from "../../helpers";
+import Helpers from "../../helpers/helpers";
 
 interface _props {
   select: (item: string) => void;
