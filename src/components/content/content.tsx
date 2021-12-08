@@ -1,38 +1,51 @@
 import "./content.scss";
 import ActionBar from "./action-bar";
 import ContentItem from "./content-item";
+import { useEffect, useState } from "react";
+import { music } from "../../types/types";
+import { Loader } from "../misc/loader";
+import { ApiHelper } from "../../App";
 
-interface _props{
-  selected: string
+interface _props {
+  selected: string;
 }
 
 export default function Content({ selected }: _props) {
+  const [musicList, setMusicList] = useState([] as Array<music>);
+  const [gettingMusic, setGettingMusic] = useState(true);
 
-  function contentSwitch(){
-    switch(selected){
+  useEffect(() => {
+    getMusic();
+  }, []);
+
+  async function getMusic() {
+    setGettingMusic(() => true);
+    let _musicList: Array<music> = await ApiHelper.getMusic("chill");
+    setGettingMusic(() => false);
+    setMusicList(() => _musicList);
+  }
+
+  function contentSwitch() {
+    switch (selected) {
       case "music":
-      return (
+        return (
           <div className="content-container">
-            <ContentItem />
-            <ContentItem />
-            <ContentItem />
-            <ContentItem />
+            {gettingMusic ? (
+              <Loader />
+            ) : (
+              musicList.map((music: music) => <ContentItem key={music.id} />)
+            )}
           </div>
         );
-        default:
-          return <h3 className="content-message">None selected</h3>
+      default:
+        return <h3 className="content-message">None selected</h3>;
     }
   }
 
   return (
     <div id="content">
-      <ActionBar
-        show={selected !== ""}
-      />
-      {
-
-      contentSwitch()
-      }
+      <ActionBar show={selected !== ""} />
+      {contentSwitch()}
     </div>
   );
 }

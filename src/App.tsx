@@ -1,13 +1,16 @@
-import { useState } from 'react';
-import './App.scss';
-import Content from './components/content/content';
-import NavBar from './components/navbar/navbar';
-import SideBar from './components/sidebar/sidebar';
+import { useState } from "react";
+import LofiMoodsApiHelper from "./api/lofi-moods-api-helper";
+import "./App.scss";
+import Content from "./components/content/content";
+import NavBar from "./components/navbar/navbar";
+import SideBar from "./components/sidebar/sidebar";
+
+export const ApiHelper = new LofiMoodsApiHelper();
 
 export default function App() {
   const [selected, setSelected] = useState("");
 
-  const select = (item:string) => setSelected(() => item);
+  const select = (item: string) => setSelected(() => item);
 
   return (
     <div id="app">
@@ -17,6 +20,5 @@ export default function App() {
         <Content selected={selected} />
       </main>
     </div>
-  )
+  );
 }
-

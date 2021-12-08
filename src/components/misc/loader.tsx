@@ -9,5 +9,9 @@ export function MiniLoader() {
 }
 
 export function Loader() {
-  return <div className="loader" />;
+  return (
+    <div className="loader-container">
+      <div className="loader" />
+    </div>
+  );
 }
