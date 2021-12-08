@@ -97,6 +97,8 @@
 
     .content-item {
       z-index: 1;
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 16px;
       border-left: 8px solid $secondary;
 
@@ -106,57 +108,32 @@
       @extend .box-shadow;
       @extend .rounded-border;
 
-      .content-details {
-        display: flex;
-        justify-content: space-between;
+      .thumb-icon {
         align-items: center;
+        display: flex;
 
-        .record-datas {
-          width: 100%;
-          .key-value-pair {
-            display: flex;
-            justify-content: space-between;
-
-            .key {
-              font-weight: bold;
-              text-transform: capitalize;
-            }
-
-            .value {
-              margin-left: 20px;
-            }
-          }
-        }
-
-        .icons-container {
-          display: flex;
-          @include mobile {
-            flex-direction: column;
-          }
-
-          .icon-container {
-            margin: 8px;
-            background-color: $primary;
-
-            @include mobile {
-              margin: 4px;
-            }
-
-            @extend .rounded-border;
-            @extend .clickable;
-            @extend .box-shadow;
-          }
+        .thumbnail {
+          height: 70%;
+          @extend .rounded-border;
         }
       }
 
-      .event-image {
-        display: block;
-        margin: auto;
-        height: 10vw;
-        max-height: 160px;
-        min-height: 120px;
+      .icons-container {
+        @include mobile {
+          flex-direction: column;
+        }
 
-        @extend .rounded-border;
+        .icon-button {
+          margin: 8px;
+
+          @include mobile {
+            margin: 4px;
+          }
+
+          @extend .rounded-border;
+          @extend .clickable;
+          @extend .box-shadow;
+        }
       }
     }
   }

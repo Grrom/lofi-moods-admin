@@ -20,7 +20,7 @@ export default function Content({ selected }: _props) {
 
   async function getMusic() {
     setGettingMusic(() => true);
-    let _musicList: Array<music> = await ApiHelper.getMusic("chill");
+    let _musicList: Array<music> = await ApiHelper.getMusic("relax");
     setGettingMusic(() => false);
     setMusicList(() => _musicList);
   }
@@ -33,7 +33,9 @@ export default function Content({ selected }: _props) {
             {gettingMusic ? (
               <Loader />
             ) : (
-              musicList.map((music: music) => <ContentItem key={music.id} />)
+              musicList.map((music: music) => (
+                <ContentItem key={music.id} music={music} />
+              ))
             )}
           </div>
         );
