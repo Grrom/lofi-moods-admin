@@ -7,8 +7,22 @@ export default class LofiMoodsApiHelper {
 
   baseUrl: string = `${this.protocol}://${this.host}:${this.port}`;
 
+  addMusic = async (music: music) => {
+    let path = "/addMusic";
+
+    let addMusic: Response = await fetch(`${this.baseUrl}${path}`, {
+      method: "put",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(music),
+    });
+
+    let apiResponse: apiResponse<music> = await addMusic.json();
+    return apiResponse;
+  };
+
   getMusic = async (mood: string): Promise<Array<music>> => {
     let path = "/getMusic";
+    console.log(mood);
 
     let getMusic: Response = await fetch(`${this.baseUrl}${path}?mood=${mood}`);
 
@@ -26,7 +40,6 @@ export default class LofiMoodsApiHelper {
     });
 
     let apiResponse: apiResponse<any> = await updateMusic.json();
-    console.log(apiResponse);
     return apiResponse;
   };
 

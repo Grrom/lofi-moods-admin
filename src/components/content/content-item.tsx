@@ -52,7 +52,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
       console.log(column);
       console.log(Helpers.getById(column));
       Helpers.getById(column)!.textContent =
-        musicItem[column as musicProps].toString();
+        musicItem[column as musicProps]!.toString();
     }
   }
 
@@ -65,7 +65,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
           spellCheck={false}
           onBlur={(value) => {
             if (musicItem.title !== value.target.textContent!)
-              editData(music.id, "title", value.target.textContent!);
+              editData(music.id!, "title", value.target.textContent!);
           }}
         >
           {musicItem.title}
@@ -76,7 +76,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
           spellCheck={false}
           onBlur={(value) => {
             if (musicItem.owner !== value.target.textContent!)
-              editData(musicItem.id, "owner", value.target.textContent!);
+              editData(musicItem.id!, "owner", value.target.textContent!);
           }}
         >
           {musicItem.owner}
@@ -88,7 +88,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
             spellCheck={false}
             onBlur={(value) => {
               if (musicItem.link !== value.target.textContent!)
-                editData(musicItem.id, "link", value.target.textContent!);
+                editData(musicItem.id!, "link", value.target.textContent!);
             }}
           >
             {musicItem.link}

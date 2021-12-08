@@ -1,6 +1,6 @@
 export type musicProps = "id" | "title" | "owner" | "link" | "mood";
 export interface music {
-  id: number;
+  id?: number;
   title: string;
   owner: string;
   link: string;

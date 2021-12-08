@@ -8,13 +8,14 @@
   background-color: $primaryLightest;
 
   .action-bar {
-    z-index: 10;
+    z-index: 1;
+    padding: 20px;
     position: relative;
 
     @include desktop {
       height: 40px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
     }
 
     @include mobile {
@@ -23,39 +24,6 @@
     }
 
     @extend .default-padding;
-
-    .search-bar {
-      justify-content: center;
-      display: flex;
-
-      .search-field {
-        @include desktop {
-          margin-right: 8px;
-        }
-
-        @extend .rounded-border;
-
-        @include mobile {
-          margin: 10px;
-          padding: 4px;
-          height: 40px;
-        }
-      }
-    }
-
-    .archive-bar {
-      display: flex;
-      align-items: center;
-      color: $primary;
-      text-align: center;
-      justify-content: center;
-
-      @extend .rounded-border;
-
-      h4 {
-        padding-left: 16px;
-      }
-    }
 
     .action-button {
       justify-content: center;
@@ -114,7 +82,8 @@
         justify-content: flex-end;
 
         .thumbnail {
-          height: 70%;
+          width: 70%;
+
           @extend .rounded-border;
         }
       }

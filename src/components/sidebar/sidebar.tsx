@@ -2,6 +2,7 @@ import SidebarItem from "./sidebar-item";
 import "./sidebar.scss";
 import playlist from "../../assets/playlist.svg";
 import { useState } from "react";
+import { moods } from "../../helpers/constants";
 
 interface _props {
   selected: string;
@@ -31,11 +32,14 @@ export default function SideBar({ selected, select, hideSidebar }: _props) {
       </span>
       {moodsShown ? (
         <div className="moods-container">
-          <SidebarContainer
-            select={select}
-            _hideSidebar={_hideSidebar}
-            selected={selected}
-          />
+          {moods.map((mood) => (
+            <SidebarContainer
+              select={select}
+              _hideSidebar={_hideSidebar}
+              selected={selected}
+              mood={mood}
+            />
+          ))}
         </div>
       ) : (
         ""
@@ -48,25 +52,27 @@ interface SidebarContainerProps {
   select: (toSelect: string) => void;
   _hideSidebar: () => void;
   selected: string;
+  mood: string;
 }
 
 function SidebarContainer({
   select,
   _hideSidebar,
   selected,
+  mood,
 }: SidebarContainerProps) {
   return (
     <span
       onClick={() => {
-        select("chill");
+        select(mood);
         _hideSidebar();
       }}
       className="sidebar-item-container"
     >
       <SidebarItem
-        label="chill"
+        label={mood}
         imagesrc={playlist}
-        isSelected={selected === "chill"}
+        isSelected={selected === mood}
       />
     </span>
   );

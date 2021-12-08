@@ -65,7 +65,9 @@ export default class Helpers {
   };
 
   static getById = (id: string) => {
-    console.log(id);
     return document.getElementById(id);
+  };
+  static inputGetter = (id: string) => {
+    return (document.getElementById(id) as HTMLInputElement)!.value;
   };
 }
