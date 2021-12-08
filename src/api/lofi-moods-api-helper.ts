@@ -22,7 +22,6 @@ export default class LofiMoodsApiHelper {
 
   getMusic = async (mood: string): Promise<Array<music>> => {
     let path = "/getMusic";
-    console.log(mood);
 
     let getMusic: Response = await fetch(`${this.baseUrl}${path}?mood=${mood}`);
 

@@ -34,6 +34,7 @@ export default function SideBar({ selected, select, hideSidebar }: _props) {
         <div className="moods-container">
           {moods.map((mood) => (
             <SidebarContainer
+              key={mood}
               select={select}
               _hideSidebar={_hideSidebar}
               selected={selected}

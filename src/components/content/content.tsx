@@ -16,7 +16,6 @@ export default function Content({ selected }: _props) {
   const [gettingMusic, setGettingMusic] = useState(true);
 
   useEffect(() => {
-    console.log("haha");
     async function getMusic() {
       setGettingMusic(() => true);
       let _musicList: Array<music> = await ApiHelper.getMusic(selected);

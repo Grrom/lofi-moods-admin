@@ -10,6 +10,7 @@ interface _props {
   deleteMe: (id: number) => void;
 }
 
+//suppres
 export default function ContentItem({ music, deleteMe }: _props) {
   const [deleting, setDeleting] = useState(false);
   const [musicItem, setMusicItem] = useState(music);
@@ -39,20 +40,30 @@ export default function ContentItem({ music, deleteMe }: _props) {
       value
     );
 
-    if (updateResponse.success) {
-      Helpers.successAlert("Edited successfully", 1000);
-      setMusicItem((current) => {
-        return {
-          [column]: value,
-          ...current,
-        };
-      });
-    } else {
-      Helpers.errorAlert("Failed to edit value", 1000);
-      console.log(column);
-      console.log(Helpers.getById(column));
+    value = value.trim();
+
+    if (musicItem[column as musicProps] === value) {
       Helpers.getById(column)!.textContent =
         musicItem[column as musicProps]!.toString();
+    } else {
+      if (value.length <= 0) {
+        Helpers.errorAlert("Invalid input", 1000);
+        Helpers.getById(column)!.textContent =
+          musicItem[column as musicProps]!.toString();
+      } else {
+        if (updateResponse.success) {
+          Helpers.successAlert("Edited successfully", 1000);
+          setMusicItem((current) => {
+            let newMusicItem = { ...current };
+            (newMusicItem[column as musicProps] as string) = value;
+            return newMusicItem;
+          });
+        } else {
+          Helpers.errorAlert("Failed to edit value", 1000);
+          Helpers.getById(column)!.textContent =
+            musicItem[column as musicProps]!.toString();
+        }
+      }
     }
   }
 
@@ -62,10 +73,11 @@ export default function ContentItem({ music, deleteMe }: _props) {
         <h3
           id="title"
           contentEditable
+          className="break-word"
+          suppressContentEditableWarning
           spellCheck={false}
           onBlur={(value) => {
-            if (musicItem.title !== value.target.textContent!)
-              editData(music.id!, "title", value.target.textContent!);
+            editData(music.id!, "title", value.target.textContent!);
           }}
         >
           {musicItem.title}
@@ -73,10 +85,11 @@ export default function ContentItem({ music, deleteMe }: _props) {
         <h4
           id="owner"
           contentEditable
+          className="break-word"
+          suppressContentEditableWarning
           spellCheck={false}
           onBlur={(value) => {
-            if (musicItem.owner !== value.target.textContent!)
-              editData(musicItem.id!, "owner", value.target.textContent!);
+            editData(musicItem.id!, "owner", value.target.textContent!);
           }}
         >
           {musicItem.owner}
@@ -85,10 +98,11 @@ export default function ContentItem({ music, deleteMe }: _props) {
           <h5
             id="link"
             contentEditable
+            className="break-word"
+            suppressContentEditableWarning
             spellCheck={false}
             onBlur={(value) => {
-              if (musicItem.link !== value.target.textContent!)
-                editData(musicItem.id!, "link", value.target.textContent!);
+              editData(musicItem.id!, "link", value.target.textContent!);
             }}
           >
             {musicItem.link}
