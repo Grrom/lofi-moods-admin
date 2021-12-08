@@ -1,22 +1,22 @@
 import "./navbar.scss";
 import hamburger from "../../assets/hamburger.svg";
 import SideBar from "../sidebar/sidebar";
-import { getById } from "../../helpers";
+import Helpers from "../../helpers";
 
-interface _props{
-  select: (item:string)=>void,
-  selected:string ,
+interface _props {
+  select: (item: string) => void;
+  selected: string;
 }
 
 export default function NavBar({ select, selected }: _props) {
   function showSidebar() {
-    getById("sidebar")!.style.width = "80vw";
-    getById("overlay")!.style.width = "100vw";
+    Helpers.getById("sidebar")!.style.width = "80vw";
+    Helpers.getById("overlay")!.style.width = "100vw";
   }
 
   function hideSidebar() {
-    getById("sidebar")!.style.width = "0vw";
-    getById("overlay")!.style.width = "0vw";
+    Helpers.getById("sidebar")!.style.width = "0vw";
+    Helpers.getById("overlay")!.style.width = "0vw";
   }
 
   return (

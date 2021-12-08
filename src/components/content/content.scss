@@ -110,6 +110,7 @@
 
       .thumb-icon {
         align-items: center;
+        justify-content: end;
         display: flex;
 
         .thumbnail {
@@ -118,7 +119,7 @@
         }
       }
 
-      .icons-container {
+      .icon-container {
         @include mobile {
           flex-direction: column;
         }
