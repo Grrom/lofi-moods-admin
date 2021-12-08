@@ -2,7 +2,7 @@ import { apiResponse, music, musicProps } from "../../types/types";
 import { ApiHelper } from "../../App";
 import { MiniLoader } from "../misc/loader";
 import Helpers from "../../helpers/helpers";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 
 import trash from "../../assets/trash.svg";
@@ -17,11 +17,16 @@ interface _props {
 
 export default function ContentItem({ music, deleteMe }: _props) {
   const [deleting, setDeleting] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [buffering, setBuffering] = useState(false);
+
   const [musicItem, setMusicItem] = useState(music);
   const [playIcon, setPlayIcon] = useState(play);
-  const [isPlaying, setIsPlaying] = useState(false);
+
   const [duration, setDuration] = useState(0);
   const [played, setPlayed] = useState(0);
+
+  const reactPlayer = useRef(null);
 
   async function deleteMusic(id: number) {
     Helpers.confirmDialog({
@@ -40,12 +45,6 @@ export default function ContentItem({ music, deleteMe }: _props) {
       confirmButtonColor: "red",
     });
   }
-
-  function playMusic() {
-    setIsPlaying((current) => !current);
-  }
-
-  function setProgress(progress: number) {}
 
   async function editData(id: number, column: string, value: string) {
     let updateResponse: apiResponse<any> = await ApiHelper.updateMusic(
@@ -91,7 +90,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
           <h3
             id={`title-${musicItem.title}`}
             contentEditable
-            className="break-word"
+            className="break-word subtle-hover-grow"
             suppressContentEditableWarning
             spellCheck={false}
             onBlur={(value) => {
@@ -103,7 +102,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
           <h4
             id={`owner-${musicItem.owner}`}
             contentEditable
-            className="break-word"
+            className="break-word subtle-hover-grow"
             suppressContentEditableWarning
             spellCheck={false}
             onBlur={(value) => {
@@ -116,7 +115,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
             <h5
               id={`link-${musicItem.link}`}
               contentEditable
-              className="break-word"
+              className="break-word subtle-hover-grow"
               suppressContentEditableWarning
               spellCheck={false}
               onBlur={(value) => {
@@ -144,16 +143,24 @@ export default function ContentItem({ music, deleteMe }: _props) {
                 <img className="icon " src={trash} alt="delete" />
               )}
             </div>
-            <div className="bg-green icon-button" onClick={() => playMusic()}>
-              {deleting ? (
+            <div
+              className="bg-green icon-button"
+              onClick={() =>
+                buffering ? () => {} : setIsPlaying((current) => !current)
+              }
+            >
+              {buffering ? (
                 <MiniLoader />
               ) : (
-                <img className="icon " src={playIcon} alt="play" />
+                <img className="icon" src={playIcon} alt="play" />
               )}
             </div>
           </div>
         </div>
         <ReactPlayer
+          ref={reactPlayer}
+          onBuffer={() => setBuffering(() => true)}
+          onBufferEnd={() => setBuffering(() => false)}
           className="react-player"
           url={`https://www.youtube.com/watch?v=${musicItem.link}`}
           onStart={() => {
@@ -183,10 +190,24 @@ export default function ContentItem({ music, deleteMe }: _props) {
           }}
         />
       </div>
-      {isPlaying ? (
-        <div className="progress-bar-container">
+      {played > 0 ? (
+        <div
+          className="progress-bar-container"
+          onClick={(event) => {
+            let boundingClientRect = (
+              event.target as HTMLElement
+            ).getBoundingClientRect();
+
+            let width = boundingClientRect.width;
+
+            let currentLocation = event.pageX - boundingClientRect.x;
+
+            (reactPlayer.current as any).seekTo(currentLocation / width!);
+          }}
+        >
           <ProgressBar
-            borderRadius="0 24px 24px 0"
+            borderRadius="0 0 24px 0"
+            transitionDuration="200"
             height="8px"
             bgColor="#11496c"
             className="progress-bar"

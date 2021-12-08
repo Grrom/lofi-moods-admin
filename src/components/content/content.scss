@@ -68,7 +68,6 @@
       border-left: 8px solid $secondary;
       position: relative;
 
-      @extend .subtle-hover-grow;
       @extend .bg-white;
       @extend .default-padding;
       @extend .box-shadow;
@@ -87,6 +86,7 @@
           .thumbnail {
             width: 70%;
 
+            @extend .subtle-hover-grow;
             @extend .rounded-border;
           }
         }
