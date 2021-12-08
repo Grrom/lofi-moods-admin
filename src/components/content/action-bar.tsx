@@ -40,9 +40,17 @@ export default function ActionBar({ show, selected, addMusic }: _props) {
         '<div id="empty" class="error-text"> </div>',
       showCancelButton: true,
       preConfirm: () => {
-        let title = Helpers.inputGetter("musicTitle");
-        let owner = Helpers.inputGetter("musicOwner");
-        let link = Helpers.inputGetter("musicLink");
+        let title = Helpers.inputGetter("musicTitle").trim();
+        let owner = Helpers.inputGetter("musicOwner").trim();
+        let link = Helpers.inputGetter("musicLink").trim();
+
+        (Helpers.getById("musicTitle") as HTMLInputElement).value = title;
+        (Helpers.getById("musicOwner") as HTMLInputElement).value = link;
+        (Helpers.getById("musicLink") as HTMLInputElement).value = link;
+
+        title = title.trim();
+        owner = owner.trim();
+        link = link.trim();
 
         let noempty = title.length > 0 && owner.length > 0 && link.length > 0;
 

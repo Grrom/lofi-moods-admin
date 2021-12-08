@@ -40,7 +40,7 @@ export default function Content({ selected }: _props) {
         <div className="content-container">
           {gettingMusic ? (
             <Loader />
-          ) : (
+          ) : musicList.length > 0 ? (
             musicList.map((music: music) => (
               <ContentItem
                 key={music.id}
@@ -48,6 +48,8 @@ export default function Content({ selected }: _props) {
                 deleteMe={deleteMusic}
               />
             ))
+          ) : (
+            <h3 className="content-message">There are no items in this list</h3>
           )}
         </div>
       );

@@ -39,17 +39,21 @@ export default function ContentItem({ music, deleteMe }: _props) {
       column,
       value
     );
+    let idInDom = `${column}-${musicItem[column as musicProps]}`;
 
     value = value.trim();
 
-    if (musicItem[column as musicProps] === value) {
-      Helpers.getById(column)!.textContent =
+    function fail() {
+      Helpers.getById(idInDom)!.textContent =
         musicItem[column as musicProps]!.toString();
+    }
+
+    if (musicItem[column as musicProps] === value) {
+      fail();
     } else {
       if (value.length <= 0) {
         Helpers.errorAlert("Invalid input", 1000);
-        Helpers.getById(column)!.textContent =
-          musicItem[column as musicProps]!.toString();
+        fail();
       } else {
         if (updateResponse.success) {
           Helpers.successAlert("Edited successfully", 1000);
@@ -60,8 +64,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
           });
         } else {
           Helpers.errorAlert("Failed to edit value", 1000);
-          Helpers.getById(column)!.textContent =
-            musicItem[column as musicProps]!.toString();
+          fail();
         }
       }
     }
@@ -71,19 +74,19 @@ export default function ContentItem({ music, deleteMe }: _props) {
     <div className="content-item">
       <div>
         <h3
-          id="title"
+          id={`title-${musicItem.title}`}
           contentEditable
           className="break-word"
           suppressContentEditableWarning
           spellCheck={false}
           onBlur={(value) => {
-            editData(music.id!, "title", value.target.textContent!);
+            editData(musicItem.id!, "title", value.target.textContent!);
           }}
         >
           {musicItem.title}
         </h3>
         <h4
-          id="owner"
+          id={`owner-${musicItem.owner}`}
           contentEditable
           className="break-word"
           suppressContentEditableWarning
@@ -96,7 +99,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
         </h4>
         <small>
           <h5
-            id="link"
+            id={`link-${musicItem.link}`}
             contentEditable
             className="break-word"
             suppressContentEditableWarning

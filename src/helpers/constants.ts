@@ -1,1 +1,1 @@
-export const moods = ["chill", "relax"];
+export const moods = ["relax", "sleep", "lonely", "happy"];
