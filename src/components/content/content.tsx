@@ -16,11 +16,11 @@ export default function Content({ selected }: _props) {
 
   useEffect(() => {
     getMusic();
-  }, []);
+  }, [selected]);
 
   async function getMusic() {
     setGettingMusic(() => true);
-    let _musicList: Array<music> = await ApiHelper.getMusic("chill");
+    let _musicList: Array<music> = await ApiHelper.getMusic(selected);
     setGettingMusic(() => false);
     setMusicList(() => _musicList);
   }
@@ -31,7 +31,7 @@ export default function Content({ selected }: _props) {
 
   function contentSwitch() {
     switch (selected) {
-      case "music":
+      case "chill":
         return (
           <div className="content-container">
             {gettingMusic ? (

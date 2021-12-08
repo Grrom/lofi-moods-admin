@@ -1,35 +1,73 @@
 import SidebarItem from "./sidebar-item";
 import "./sidebar.scss";
 import playlist from "../../assets/playlist.svg";
+import { useState } from "react";
 
 interface _props {
-  selected: String;
-  select: (item:string) => void;
+  selected: string;
+  select: (item: string) => void;
   hideSidebar?: () => void | null;
 }
 
-export default function SideBar({ selected, select, hideSidebar }:_props) {
+export default function SideBar({ selected, select, hideSidebar }: _props) {
+  const [moodsShown, setMoodsShown] = useState(false);
+
   function _hideSidebar() {
     try {
-      if(hideSidebar!==null) hideSidebar!();
-      
+      if (hideSidebar !== null) hideSidebar!();
     } catch {}
   }
   return (
     <div id="sidebar">
-        <span
-          onClick={() => {
-            select("music");
-            _hideSidebar();
-          }}
-          className="sidebar-item-container"
-        >
-          <SidebarItem
-            label="music"
-            imagesrc={playlist}
-            isSelected={selected === "music"}
-          />
+      <span
+        onClick={() => setMoodsShown((currentValue) => !currentValue)}
+        className="sidebar-item-container"
+      >
+        <SidebarItem
+          label="Music"
+          imagesrc={playlist}
+          isSelected={moodsShown}
+        />
       </span>
+      {moodsShown ? (
+        <div className="moods-container">
+          <SidebarContainer
+            select={select}
+            _hideSidebar={_hideSidebar}
+            selected={selected}
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
+  );
+}
+
+interface SidebarContainerProps {
+  select: (toSelect: string) => void;
+  _hideSidebar: () => void;
+  selected: string;
+}
+
+function SidebarContainer({
+  select,
+  _hideSidebar,
+  selected,
+}: SidebarContainerProps) {
+  return (
+    <span
+      onClick={() => {
+        select("chill");
+        _hideSidebar();
+      }}
+      className="sidebar-item-container"
+    >
+      <SidebarItem
+        label="chill"
+        imagesrc={playlist}
+        isSelected={selected === "chill"}
+      />
+    </span>
   );
 }

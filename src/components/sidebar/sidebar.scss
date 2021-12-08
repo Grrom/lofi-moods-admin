@@ -26,12 +26,12 @@
   }
 
   .active {
-    background-color: $secondary;
+    background-color: $primaryLight;
   }
 
-  .records-container {
+  .moods-container {
     align-self: flex-end;
-    background-color: $primaryLight;
+    background-color: $primary;
     margin-left: 20px;
 
     @extend .rounded-border;
@@ -56,6 +56,10 @@
       border-radius: 50%;
       background: red;
       color: white;
+    }
+
+    .label {
+      text-transform: capitalize;
     }
   }
 }
