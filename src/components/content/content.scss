@@ -64,11 +64,9 @@
     @extend .default-padding;
 
     .content-item {
-      z-index: 1;
-      display: flex;
-      justify-content: space-between;
       margin-bottom: 16px;
       border-left: 8px solid $secondary;
+      position: relative;
 
       @extend .subtle-hover-grow;
       @extend .bg-white;
@@ -76,34 +74,50 @@
       @extend .box-shadow;
       @extend .rounded-border;
 
-      .thumb-icon {
-        align-items: center;
+      .content-item-container {
+        z-index: 1;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
 
-        .thumbnail {
-          width: 70%;
+        .thumb-icon {
+          align-items: center;
+          display: flex;
+          justify-content: flex-end;
 
-          @extend .rounded-border;
+          .thumbnail {
+            width: 70%;
+
+            @extend .rounded-border;
+          }
+        }
+
+        .icon-container {
+          display: flex;
+          flex-direction: column;
+
+          .icon-button {
+            margin: 8px;
+
+            @include mobile {
+              margin: 4px;
+            }
+
+            @extend .rounded-border;
+            @extend .clickable;
+            @extend .box-shadow;
+          }
+        }
+
+        .react-player {
+          display: none;
         }
       }
 
-      .icon-container {
-        @include mobile {
-          flex-direction: column;
-        }
-
-        .icon-button {
-          margin: 8px;
-
-          @include mobile {
-            margin: 4px;
-          }
-
-          @extend .rounded-border;
-          @extend .clickable;
-          @extend .box-shadow;
-        }
+      .progress-bar-container {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 100%;
       }
     }
   }
