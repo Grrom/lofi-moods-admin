@@ -202,7 +202,9 @@ export default function ContentItem({ music, deleteMe }: _props) {
 
             let currentLocation = event.pageX - boundingClientRect.x;
 
-            (reactPlayer.current as any).seekTo(currentLocation / width!);
+            if (!buffering) {
+              (reactPlayer.current as any).seekTo(currentLocation / width!);
+            }
           }}
         >
           <ProgressBar
