@@ -45,7 +45,7 @@ export default function ActionBar({ show, selected, addMusic }: _props) {
         let link = Helpers.inputGetter("musicLink").trim();
 
         (Helpers.getById("musicTitle") as HTMLInputElement).value = title;
-        (Helpers.getById("musicOwner") as HTMLInputElement).value = link;
+        (Helpers.getById("musicOwner") as HTMLInputElement).value = owner;
         (Helpers.getById("musicLink") as HTMLInputElement).value = link;
 
         title = title.trim();
