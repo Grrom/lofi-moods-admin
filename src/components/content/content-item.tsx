@@ -27,6 +27,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
   const [played, setPlayed] = useState(0);
 
   const reactPlayer = useRef(null);
+  const progressBarContainer = useRef(null);
 
   async function deleteMusic(id: number) {
     Helpers.confirmDialog({
@@ -192,10 +193,11 @@ export default function ContentItem({ music, deleteMe }: _props) {
       </div>
       {played > 0 ? (
         <div
+          ref={progressBarContainer}
           className="progress-bar-container"
           onClick={(event) => {
             let boundingClientRect = (
-              event.target as HTMLElement
+              progressBarContainer.current! as HTMLElement
             ).getBoundingClientRect();
 
             let width = boundingClientRect.width;
@@ -203,7 +205,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
             let currentLocation = event.pageX - boundingClientRect.x;
 
             if (!buffering) {
-              (reactPlayer.current as any).seekTo(currentLocation / width!);
+              (reactPlayer.current as any).seekTo(currentLocation / width);
             }
           }}
         >
