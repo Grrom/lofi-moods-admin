@@ -10,5 +10,5 @@ export interface music {
 export interface apiResponse<T> {
   success: boolean;
   message: string;
-  data: T;
+  data?: T;
 }

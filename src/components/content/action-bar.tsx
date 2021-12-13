@@ -1,18 +1,27 @@
 import { useState } from "react";
 import { MiniLoader } from "../misc/loader";
-import add from "../../assets/add.svg";
 import Swal from "sweetalert2";
 import Helpers from "../../helpers/helpers";
 import { apiResponse, music } from "../../types/types";
-import { ApiHelper } from "../../App";
+import { ApiHelper, fireBaseHelper } from "../../App";
+
+import add from "../../assets/add.svg";
+import upload from "../../assets/upload.svg";
 
 interface _props {
   show: boolean;
   selected: string;
   addMusic: (music: music) => void;
+  playList: Array<music>;
 }
-export default function ActionBar({ show, selected, addMusic }: _props) {
+export default function ActionBar({
+  show,
+  selected,
+  addMusic,
+  playList,
+}: _props) {
   const [addingMusic, setAddingMusic] = useState(false);
+  const [pushingPlaylist, setPushingPlaylist] = useState(false);
 
   async function submit(music: music) {
     setAddingMusic(() => true);
@@ -20,11 +29,21 @@ export default function ActionBar({ show, selected, addMusic }: _props) {
     setAddingMusic(() => false);
 
     if (addResponse.success) {
-      addMusic(addResponse.data);
+      addMusic(addResponse.data!);
       Helpers.successAlert(addResponse.message, 1000);
     } else {
       Helpers.errorAlert(addResponse.message, 1000);
     }
+  }
+
+  async function pushPlaylist() {
+    setPushingPlaylist(() => true);
+    let pushResponse: apiResponse<undefined> =
+      await fireBaseHelper.pushPlaylist(playList);
+    setPushingPlaylist(() => false);
+
+    if (pushResponse.success) Helpers.successAlert(pushResponse.message);
+    else Helpers.errorAlert(pushResponse.message);
   }
 
   function addMusicDialog() {
@@ -74,22 +93,45 @@ export default function ActionBar({ show, selected, addMusic }: _props) {
 
   return show ? (
     <div className="action-bar">
-      <span
-        className="action-button add-record"
-        title="Add"
-        onClick={() => {
-          addMusicDialog();
-        }} // setAddingMusic((current) => !current)}
-      >
-        {addingMusic ? (
-          <MiniLoader />
-        ) : (
-          <img src={add} alt="add" className="icon" />
-        )}
-        <h4>Add </h4>
-      </span>
+      <ActionButton
+        onClick={pushPlaylist}
+        isLoading={pushingPlaylist}
+        text="Push Playlist"
+        icon={upload}
+      />
+      <ActionButton
+        onClick={addMusicDialog}
+        isLoading={addingMusic}
+        text="Add"
+        icon={add}
+      />
     </div>
   ) : (
     <span></span>
+  );
+}
+
+interface _actionButtonProps {
+  onClick: () => any;
+  isLoading: boolean;
+  text: string;
+  icon: string;
+}
+function ActionButton({ onClick, isLoading, text, icon }: _actionButtonProps) {
+  return (
+    <span
+      className="action-button"
+      title={text}
+      onClick={() => {
+        onClick();
+      }}
+    >
+      {isLoading ? (
+        <MiniLoader />
+      ) : (
+        <img src={icon} alt={text} className="icon" />
+      )}
+      <h4>{text} </h4>
+    </span>
   );
 }

@@ -64,6 +64,7 @@ export default function Content({ selected }: _props) {
         show={selected !== ""}
         selected={selected}
         addMusic={addMusic}
+        playList={musicList}
       />
       {contentSwitch()}
     </div>

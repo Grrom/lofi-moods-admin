@@ -26,7 +26,7 @@ export default class LofiMoodsApiHelper {
     let getMusic: Response = await fetch(`${this.baseUrl}${path}?mood=${mood}`);
 
     let apiResponse: apiResponse<Array<music>> = await getMusic.json();
-    return apiResponse.data;
+    return apiResponse.data!;
   };
 
   updateMusic = async (id: number, column: string, value: string) => {
