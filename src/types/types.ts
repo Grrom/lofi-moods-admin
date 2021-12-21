@@ -7,6 +7,11 @@ export interface music {
   mood: string;
 }
 
+export interface mood {
+  id?: number;
+  mood: string;
+}
+
 export interface apiResponse<T> {
   success: boolean;
   message: string;
