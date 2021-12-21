@@ -39,6 +39,22 @@ export default class Helpers {
     });
   };
 
+  static textInputAlert = (
+    question: string,
+    onConfirm: (value: any) => void
+  ) => {
+    Swal.fire({
+      icon: "question",
+      title: question,
+      input: "text",
+      showCancelButton: true,
+    }).then((value) => {
+      if (value.isConfirmed) {
+        onConfirm(value.value);
+      }
+    });
+  };
+
   static successAlert = (message: string, duration?: number) => {
     fireToast({
       icon: "success",

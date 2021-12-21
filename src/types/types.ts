@@ -4,15 +4,12 @@ export interface music {
   title: string;
   owner: string;
   link: string;
-  mood: string;
+  mood: mood;
 }
 
 export type id = number | undefined;
 
-export interface mood {
-  id: id;
-  mood: string;
-}
+export type mood = string | undefined;
 
 export interface apiResponse<T> {
   success: boolean;

@@ -87,7 +87,7 @@ export default function ActionBar({
           title: Helpers.inputGetter("musicTitle"),
           owner: Helpers.inputGetter("musicOwner"),
           link: Helpers.inputGetter("musicLink"),
-          mood: selected!.mood,
+          mood: selected,
         });
       }
     });

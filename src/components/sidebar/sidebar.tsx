@@ -1,10 +1,13 @@
 import SidebarItem from "./sidebar-item";
 import "./sidebar.scss";
-import playlist from "../../assets/playlist.svg";
 import { useEffect, useState } from "react";
 import { mood } from "../../types/types";
 import { ApiHelper } from "../../App";
 import { MiniLoader } from "../misc/loader";
+
+import playlist from "../../assets/playlist.svg";
+import add from "../../assets/add.svg";
+import Helpers from "../../helpers/helpers";
 
 interface _props {
   selected?: mood;
@@ -14,7 +17,7 @@ interface _props {
 
 export default function SideBar({ selected, select, hideSidebar }: _props) {
   const [moodsShown, setMoodsShown] = useState(false);
-  const [moodss, setMoods] = useState([] as Array<mood>);
+  const [moods, setMoods] = useState([] as Array<mood>);
 
   const [gettingMoods, setGettingMoods] = useState(false);
 
@@ -34,6 +37,45 @@ export default function SideBar({ selected, select, hideSidebar }: _props) {
       if (hideSidebar !== null) hideSidebar!();
     } catch {}
   }
+
+  function moodsLister() {
+    let _moodsList: Array<JSX.Element> = moods.map((mood) => (
+      <SidebarContainer
+        key={mood}
+        select={select}
+        _hideSidebar={_hideSidebar}
+        selected={selected}
+        mood={mood}
+      />
+    ));
+
+    _moodsList.push(
+      <span
+        key="addMood"
+        onClick={() => {
+          Helpers.textInputAlert(
+            "Enter the name of the mood",
+            async (value) => {
+              if (value !== "") {
+                let addMood = await ApiHelper.addMood(value);
+
+                if (addMood.success) {
+                  Helpers.successAlert(addMood.message);
+                  setMoods((current) => current.concat(addMood.data ?? []));
+                } else {
+                  Helpers.errorAlert(addMood.message);
+                }
+              }
+            }
+          );
+        }}
+      >
+        <SidebarItem imagesrc={add} label="Add Mood" isSelected={false} />
+      </span>
+    );
+    return _moodsList;
+  }
+
   return (
     <div id="sidebar">
       <span
@@ -50,17 +92,7 @@ export default function SideBar({ selected, select, hideSidebar }: _props) {
         gettingMoods ? (
           <MiniLoader />
         ) : (
-          <div className="moods-container">
-            {moodss.map((mood) => (
-              <SidebarContainer
-                key={mood.id}
-                select={select}
-                _hideSidebar={_hideSidebar}
-                selected={selected}
-                mood={mood}
-              />
-            ))}
-          </div>
+          <div className="moods-container">{moodsLister()}</div>
         )
       ) : (
         ""
@@ -91,7 +123,7 @@ function SidebarContainer({
       className="sidebar-item-container"
     >
       <SidebarItem
-        label={mood.mood}
+        label={mood!}
         imagesrc={playlist}
         isSelected={selected === mood}
       />

@@ -16,7 +16,7 @@ export default class FireBaseHelper {
   ): Promise<apiResponse<undefined>> => {
     let hasError = false;
     if (playList.length > 0) {
-      if (await this.deleteAllByMood(playList[0].mood)) {
+      if (await this.deleteAllByMood(playList[0].mood!)) {
         let pushStatus = new Promise<apiResponse<undefined>>((resolve) => {
           playList.forEach(async (music: music, index: number) => {
             if (!(await this.addMusic(music))) {
@@ -78,7 +78,7 @@ export default class FireBaseHelper {
   private addMusic = async (music: music) => {
     let success;
     try {
-      await addDoc(collection(this.firestore, music.mood), music);
+      await addDoc(collection(this.firestore, music.mood!), music);
       success = true;
     } catch (e) {
       success = false;
