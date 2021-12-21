@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MiniLoader } from "../misc/loader";
 import Swal from "sweetalert2";
 import Helpers from "../../helpers/helpers";
-import { apiResponse, music } from "../../types/types";
+import { apiResponse, mood, music } from "../../types/types";
 import { ApiHelper, fireBaseHelper } from "../../App";
 
 import add from "../../assets/add.svg";
@@ -10,7 +10,7 @@ import upload from "../../assets/upload.svg";
 
 interface _props {
   show: boolean;
-  selected: string;
+  selected?: mood;
   addMusic: (music: music) => void;
   search: (input: string) => void;
   playList: Array<music>;
@@ -87,7 +87,7 @@ export default function ActionBar({
           title: Helpers.inputGetter("musicTitle"),
           owner: Helpers.inputGetter("musicOwner"),
           link: Helpers.inputGetter("musicLink"),
-          mood: selected,
+          mood: selected!.mood,
         });
       }
     });

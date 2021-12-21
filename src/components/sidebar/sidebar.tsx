@@ -7,8 +7,8 @@ import { ApiHelper } from "../../App";
 import { MiniLoader } from "../misc/loader";
 
 interface _props {
-  selected: string;
-  select: (item: string) => void;
+  selected?: mood;
+  select: (item: mood) => void;
   hideSidebar?: () => void | null;
 }
 
@@ -57,7 +57,7 @@ export default function SideBar({ selected, select, hideSidebar }: _props) {
                 select={select}
                 _hideSidebar={_hideSidebar}
                 selected={selected}
-                mood={mood.mood}
+                mood={mood}
               />
             ))}
           </div>
@@ -70,10 +70,10 @@ export default function SideBar({ selected, select, hideSidebar }: _props) {
 }
 
 interface SidebarContainerProps {
-  select: (toSelect: string) => void;
+  select: (toSelect: mood) => void;
   _hideSidebar: () => void;
-  selected: string;
-  mood: string;
+  selected?: mood;
+  mood: mood;
 }
 
 function SidebarContainer({
@@ -91,7 +91,7 @@ function SidebarContainer({
       className="sidebar-item-container"
     >
       <SidebarItem
-        label={mood}
+        label={mood.mood}
         imagesrc={playlist}
         isSelected={selected === mood}
       />

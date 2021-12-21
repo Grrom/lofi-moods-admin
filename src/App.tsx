@@ -6,6 +6,7 @@ import NavBar from "./components/navbar/navbar";
 import SideBar from "./components/sidebar/sidebar";
 import { initializeApp } from "firebase/app";
 import FireBaseHelper from "./api/firebase-helper";
+import { mood } from "./types/types";
 
 initializeApp({
   apiKey: "AIzaSyDl1rXG54RQlR7FnxPct8oLKYNkurrwNMY",
@@ -21,9 +22,9 @@ export const fireBaseHelper = new FireBaseHelper();
 export const ApiHelper = new LofiMoodsApiHelper();
 
 export default function App() {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(undefined as mood | undefined);
 
-  const select = (item: string) => setSelected(() => item);
+  const select = (item: mood) => setSelected(() => item);
 
   return (
     <div id="app">

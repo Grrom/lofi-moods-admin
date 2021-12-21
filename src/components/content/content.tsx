@@ -2,13 +2,12 @@ import "./content.scss";
 import ActionBar from "./action-bar";
 import ContentItem from "./content-item";
 import { useEffect, useState } from "react";
-import { music } from "../../types/types";
+import { mood, music } from "../../types/types";
 import { Loader } from "../misc/loader";
 import { ApiHelper } from "../../App";
-import { moods } from "../../helpers/constants";
 
 interface _props {
-  selected: string;
+  selected?: mood;
 }
 
 export default function Content({ selected }: _props) {
@@ -19,7 +18,7 @@ export default function Content({ selected }: _props) {
   useEffect(() => {
     async function getMusic() {
       setGettingMusic(() => true);
-      let _musicList: Array<music> = await ApiHelper.getMusic(selected);
+      let _musicList: Array<music> = await ApiHelper.getMusic(selected?.id);
       setGettingMusic(() => false);
       setMusicList(() => _musicList);
     }
@@ -61,7 +60,7 @@ export default function Content({ selected }: _props) {
   }
 
   function contentSwitch() {
-    if (moods.includes(selected)) {
+    if (selected !== undefined) {
       return (
         <div className="content-container">
           {gettingMusic ? (
@@ -81,7 +80,7 @@ export default function Content({ selected }: _props) {
   return (
     <div id="content">
       <ActionBar
-        show={selected !== ""}
+        show={selected !== undefined}
         selected={selected}
         addMusic={addMusic}
         playList={musicList}

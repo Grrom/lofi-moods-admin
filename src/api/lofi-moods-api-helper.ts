@@ -1,4 +1,4 @@
-import { apiResponse, mood, music } from "../types/types";
+import { apiResponse, id, mood, music } from "../types/types";
 
 export default class LofiMoodsApiHelper {
   protocol: string = "http";
@@ -20,7 +20,7 @@ export default class LofiMoodsApiHelper {
     return apiResponse;
   };
 
-  getMusic = async (mood: string): Promise<Array<music>> => {
+  getMusic = async (mood: id): Promise<Array<music>> => {
     let path = "/getMusic";
 
     let getMusic: Response = await fetch(`${this.baseUrl}${path}?mood=${mood}`);

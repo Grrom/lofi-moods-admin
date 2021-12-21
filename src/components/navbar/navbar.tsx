@@ -2,10 +2,11 @@ import "./navbar.scss";
 import hamburger from "../../assets/hamburger.svg";
 import SideBar from "../sidebar/sidebar";
 import Helpers from "../../helpers/helpers";
+import { mood } from "../../types/types";
 
 interface _props {
-  select: (item: string) => void;
-  selected: string;
+  select: (item: mood) => void;
+  selected?: mood;
 }
 
 export default function NavBar({ select, selected }: _props) {
