@@ -11,11 +11,11 @@
     z-index: 1;
     padding: 20px;
     position: relative;
+    display: flex;
 
     @include desktop {
       height: 40px;
-      display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
     }
 
     @include mobile {
@@ -24,6 +24,25 @@
     }
 
     @extend .default-padding;
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+
+      .search-field {
+        @include desktop {
+          margin-right: 8px;
+        }
+
+        @extend .rounded-border;
+
+        @include mobile {
+          margin: 10px;
+          padding: 4px;
+          height: 40px;
+        }
+      }
+    }
 
     .action-button {
       justify-content: center;
@@ -43,6 +62,14 @@
       @extend .clickable;
       @extend .rounded-border;
       @extend .box-shadow;
+    }
+
+    .action-button-container {
+      display: flex;
+
+      .action-button {
+        @extend .action-button;
+      }
     }
   }
 

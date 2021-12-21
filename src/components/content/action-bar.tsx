@@ -12,12 +12,14 @@ interface _props {
   show: boolean;
   selected: string;
   addMusic: (music: music) => void;
+  search: (input: string) => void;
   playList: Array<music>;
 }
 export default function ActionBar({
   show,
   selected,
   addMusic,
+  search,
   playList,
 }: _props) {
   const [addingMusic, setAddingMusic] = useState(false);
@@ -93,18 +95,42 @@ export default function ActionBar({
 
   return show ? (
     <div className="action-bar">
-      <ActionButton
-        onClick={pushPlaylist}
-        isLoading={pushingPlaylist}
-        text="Push Playlist"
-        icon={upload}
-      />
-      <ActionButton
-        onClick={addMusicDialog}
-        isLoading={addingMusic}
-        text="Add"
-        icon={add}
-      />
+      <span className="search-bar">
+        <input
+          type="text"
+          className="search-field"
+          id="search-field"
+          onChange={(event) => {
+            search(event.target.value);
+          }}
+        />
+        <div
+          className="action-button"
+          title="Search"
+          onClick={() =>
+            search(
+              (document.getElementById("search-field") as HTMLInputElement)
+                .value
+            )
+          }
+        >
+          <h4>Search</h4>
+        </div>
+      </span>
+      <div className="action-button-container">
+        <ActionButton
+          onClick={pushPlaylist}
+          isLoading={pushingPlaylist}
+          text="Push Playlist"
+          icon={upload}
+        />
+        <ActionButton
+          onClick={addMusicDialog}
+          isLoading={addingMusic}
+          text="Add"
+          icon={add}
+        />
+      </div>
     </div>
   ) : (
     <span></span>

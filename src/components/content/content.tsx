@@ -14,6 +14,7 @@ interface _props {
 export default function Content({ selected }: _props) {
   const [musicList, setMusicList] = useState([] as Array<music>);
   const [gettingMusic, setGettingMusic] = useState(true);
+  const [searchString, setSearchString] = useState("");
 
   useEffect(() => {
     async function getMusic() {
@@ -34,6 +35,31 @@ export default function Content({ selected }: _props) {
     setMusicList((current) => [music, ...current]);
   }
 
+  const search = (input: string) => setSearchString(() => input);
+  function getList() {
+    let arr: JSX.Element[] = [];
+
+    if (searchString !== "") {
+      musicList.forEach((music) => {
+        if (
+          music.title
+            .trim()
+            .toLowerCase()
+            .includes(searchString.trim().toLowerCase())
+        ) {
+          arr.push(createItem(music));
+        }
+      });
+    } else {
+      arr = musicList.map((music) => createItem(music));
+    }
+    return arr;
+  }
+
+  function createItem(music: music) {
+    return <ContentItem key={music.id} music={music} deleteMe={deleteMusic} />;
+  }
+
   function contentSwitch() {
     if (moods.includes(selected)) {
       return (
@@ -41,13 +67,7 @@ export default function Content({ selected }: _props) {
           {gettingMusic ? (
             <Loader />
           ) : musicList.length > 0 ? (
-            musicList.map((music: music) => (
-              <ContentItem
-                key={music.id}
-                music={music}
-                deleteMe={deleteMusic}
-              />
-            ))
+            getList().map((item: JSX.Element) => item)
           ) : (
             <h3 className="content-message">There are no items in this list</h3>
           )}
@@ -65,6 +85,7 @@ export default function Content({ selected }: _props) {
         selected={selected}
         addMusic={addMusic}
         playList={musicList}
+        search={search}
       />
       {contentSwitch()}
     </div>
