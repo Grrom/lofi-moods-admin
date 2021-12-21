@@ -30,7 +30,6 @@ export default class LofiMoodsApiHelper {
     });
 
     let apiResponse: apiResponse<mood> = await addMood.json();
-    console.log(apiResponse.data);
     return apiResponse;
   };
 
@@ -49,7 +48,6 @@ export default class LofiMoodsApiHelper {
     let getMood: Response = await fetch(`${this.baseUrl}${path}`);
 
     let apiResponse: apiResponse<Array<mood>> = await getMood.json();
-    console.log(apiResponse.data);
     return apiResponse.data!;
   };
 
