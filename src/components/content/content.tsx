@@ -8,9 +8,10 @@ import { ApiHelper } from "../../App";
 
 interface _props {
   selected?: mood;
+  deleteMoodFromState: (mood: mood) => void;
 }
 
-export default function Content({ selected }: _props) {
+export default function Content({ selected, deleteMoodFromState }: _props) {
   const [musicList, setMusicList] = useState([] as Array<music>);
   const [gettingMusic, setGettingMusic] = useState(true);
   const [searchString, setSearchString] = useState("");
@@ -85,6 +86,7 @@ export default function Content({ selected }: _props) {
         addMusic={addMusic}
         playList={musicList}
         search={search}
+        deleteMoodFromState={deleteMoodFromState}
       />
       {contentSwitch()}
     </div>

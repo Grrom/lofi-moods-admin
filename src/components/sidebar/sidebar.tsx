@@ -1,6 +1,6 @@
 import SidebarItem from "./sidebar-item";
 import "./sidebar.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { mood } from "../../types/types";
 import { ApiHelper } from "../../App";
 import { MiniLoader } from "../misc/loader";
@@ -12,25 +12,21 @@ import Helpers from "../../helpers/helpers";
 interface _props {
   selected?: mood;
   select: (item: mood) => void;
+  addMood: (item: mood) => void;
   hideSidebar?: () => void | null;
+  gettingMoods: boolean;
+  moods: Array<mood>;
 }
 
-export default function SideBar({ selected, select, hideSidebar }: _props) {
+export default function SideBar({
+  selected,
+  select,
+  addMood,
+  hideSidebar,
+  gettingMoods,
+  moods,
+}: _props) {
   const [moodsShown, setMoodsShown] = useState(false);
-  const [moods, setMoods] = useState([] as Array<mood>);
-
-  const [gettingMoods, setGettingMoods] = useState(false);
-
-  useEffect(() => {
-    async function getMoods() {
-      setGettingMoods(() => true);
-      let _moods = await ApiHelper.getMoods();
-      setGettingMoods(() => false);
-      setMoods(() => _moods);
-    }
-
-    getMoods();
-  }, []);
 
   function _hideSidebar() {
     try {
@@ -57,13 +53,13 @@ export default function SideBar({ selected, select, hideSidebar }: _props) {
             "Enter the name of the mood",
             async (value) => {
               if (value !== "") {
-                let addMood = await ApiHelper.addMood(value);
+                let addMoodRes = await ApiHelper.addMood(value);
 
-                if (addMood.success) {
-                  Helpers.successAlert(addMood.message);
-                  setMoods((current) => current.concat(addMood.data ?? []));
+                if (addMoodRes.success) {
+                  Helpers.successAlert(addMoodRes.message);
+                  addMood(addMoodRes.data);
                 } else {
-                  Helpers.errorAlert(addMood.message);
+                  Helpers.errorAlert(addMoodRes.message);
                 }
               }
             }

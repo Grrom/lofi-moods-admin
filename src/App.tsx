@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LofiMoodsApiHelper from "./api/lofi-moods-api-helper";
 import "./App.scss";
 import Content from "./components/content/content";
@@ -23,15 +23,46 @@ export const ApiHelper = new LofiMoodsApiHelper();
 
 export default function App() {
   const [selected, setSelected] = useState(undefined as mood | undefined);
+  const [moods, setMoods] = useState([] as Array<mood>);
+
+  const [gettingMoods, setGettingMoods] = useState(false);
 
   const select = (item: mood) => setSelected(() => item);
+  const addMood = (item: mood) => setMoods((current) => current.concat(item));
+  const deleteMood = (item: mood) => {
+    setMoods(() => moods.filter((obj) => obj !== item));
+    select(undefined);
+  };
+
+  useEffect(() => {
+    async function getMoods() {
+      setGettingMoods(() => true);
+      let _moods = await ApiHelper.getMoods();
+      setGettingMoods(() => false);
+      setMoods(() => _moods);
+    }
+
+    getMoods();
+  }, []);
 
   return (
     <div id="app">
-      <NavBar selected={selected} select={select} />
+      <NavBar
+        selected={selected}
+        select={select}
+        moods={moods}
+        addMood={addMood}
+        gettingMoods={gettingMoods}
+      />
       <main>
-        <SideBar selected={selected} select={select} />
-        <Content selected={selected} />
+        <SideBar
+          selected={selected}
+          select={select}
+          moods={moods}
+          addMood={addMood}
+          gettingMoods={gettingMoods}
+        />
+        <Content selected={selected} deleteMoodFromState={deleteMood} />
       </main>
     </div>
   );

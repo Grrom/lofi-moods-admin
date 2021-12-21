@@ -7,9 +7,18 @@ import { mood } from "../../types/types";
 interface _props {
   select: (item: mood) => void;
   selected?: mood;
+  addMood: (item: mood) => void;
+  gettingMoods: boolean;
+  moods: Array<mood>;
 }
 
-export default function NavBar({ select, selected }: _props) {
+export default function NavBar({
+  select,
+  selected,
+  moods,
+  addMood,
+  gettingMoods,
+}: _props) {
   function showSidebar() {
     Helpers.getById("sidebar")!.style.width = "80vw";
     Helpers.getById("overlay")!.style.width = "100vw";
@@ -31,7 +40,13 @@ export default function NavBar({ select, selected }: _props) {
         onClick={() => showSidebar()}
       />
       <div id="overlay" onClick={() => hideSidebar()}></div>
-      <SideBar selected={selected} select={select} hideSidebar={hideSidebar} />
+      <SideBar
+        selected={selected}
+        select={select}
+        moods={moods}
+        addMood={addMood}
+        gettingMoods={gettingMoods}
+      />
     </div>
   );
 }

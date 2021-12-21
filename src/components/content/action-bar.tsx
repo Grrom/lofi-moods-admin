@@ -7,11 +7,13 @@ import { ApiHelper, fireBaseHelper } from "../../App";
 
 import add from "../../assets/add.svg";
 import upload from "../../assets/upload.svg";
+import trash from "../../assets/trash.svg";
 
 interface _props {
   show: boolean;
   selected?: mood;
   addMusic: (music: music) => void;
+  deleteMoodFromState: (mood: mood) => void;
   search: (input: string) => void;
   playList: Array<music>;
 }
@@ -20,9 +22,11 @@ export default function ActionBar({
   selected,
   addMusic,
   search,
+  deleteMoodFromState,
   playList,
 }: _props) {
   const [addingMusic, setAddingMusic] = useState(false);
+  const [deletingMood, setDeletingMood] = useState(false);
   const [pushingPlaylist, setPushingPlaylist] = useState(false);
 
   async function submit(music: music) {
@@ -46,6 +50,19 @@ export default function ActionBar({
 
     if (pushResponse.success) Helpers.successAlert(pushResponse.message);
     else Helpers.errorAlert(pushResponse.message);
+  }
+
+  async function deleteMood() {
+    setDeletingMood(() => true);
+
+    let deleteMood = await ApiHelper.deleteMood(selected);
+
+    if (deleteMood.success) {
+      deleteMoodFromState(selected);
+      Helpers.successAlert(deleteMood.message);
+    } else Helpers.errorAlert(deleteMood.message);
+
+    setDeletingMood(() => false);
   }
 
   function addMusicDialog() {
@@ -118,6 +135,12 @@ export default function ActionBar({
         </div>
       </span>
       <div className="action-button-container">
+        <ActionButton
+          onClick={deleteMood}
+          isLoading={deletingMood}
+          text="Delete Mood"
+          icon={trash}
+        />
         <ActionButton
           onClick={pushPlaylist}
           isLoading={pushingPlaylist}

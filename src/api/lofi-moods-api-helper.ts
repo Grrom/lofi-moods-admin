@@ -66,7 +66,7 @@ export default class LofiMoodsApiHelper {
     return apiResponse;
   };
 
-  deleteMusic = async (id: number): Promise<any> => {
+  deleteMusic = async (id: number): Promise<apiResponse<any>> => {
     let path = "/deleteMusic";
 
     let deleteMusic: Response = await fetch(`${this.baseUrl}${path}`, {
@@ -76,6 +76,19 @@ export default class LofiMoodsApiHelper {
     });
 
     let apiResponse: apiResponse<any> = await deleteMusic.json();
+    return apiResponse;
+  };
+
+  deleteMood = async (mood: mood): Promise<apiResponse<any>> => {
+    let path = "/deleteMood";
+
+    let deleteMood: Response = await fetch(`${this.baseUrl}${path}`, {
+      method: "delete",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mood: mood }),
+    });
+
+    let apiResponse: apiResponse<any> = await deleteMood.json();
     return apiResponse;
   };
 }
