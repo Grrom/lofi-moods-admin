@@ -1,3 +1,4 @@
+import { fireBaseHelper } from "../App";
 import { apiResponse, mood, music } from "../types/types";
 
 export default class LofiMoodsApiHelper {
@@ -30,6 +31,11 @@ export default class LofiMoodsApiHelper {
     });
 
     let apiResponse: apiResponse<mood> = await addMood.json();
+
+    if (apiResponse.success) {
+      fireBaseHelper.addMood(mood);
+    }
+
     return apiResponse;
   };
 
@@ -87,6 +93,11 @@ export default class LofiMoodsApiHelper {
     });
 
     let apiResponse: apiResponse<any> = await deleteMood.json();
+
+    if (apiResponse.success) {
+      fireBaseHelper.deleteMood(mood);
+    }
+
     return apiResponse;
   };
 }

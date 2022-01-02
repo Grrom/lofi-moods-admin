@@ -60,7 +60,6 @@ export default function ActionBar({
     if (deleteMood.success) {
       deleteMoodFromState(selected);
       Helpers.successAlert(deleteMood.message);
-      fireBaseHelper.deleteMood(selected);
     } else Helpers.errorAlert(deleteMood.message);
 
     setDeletingMood(() => false);
