@@ -13,6 +13,23 @@ import { apiResponse, mood, music } from "../types/types";
 export default class FireBaseHelper {
   firestore = getFirestore();
 
+  public addMusic = async (music: music): Promise<apiResponse<undefined>> => {
+    let response;
+    try {
+      await addDoc(collection(this.firestore, music.mood!), music);
+      response = {
+        message: `${music.title} added succesfully`,
+        success: true,
+      };
+    } catch (e) {
+      response = {
+        message: `failed to add ${music.title}`,
+        success: false,
+      };
+    }
+    return response;
+  };
+
   public pushPlaylist = async (
     playList: Array<music>
   ): Promise<apiResponse<undefined>> => {
@@ -21,7 +38,7 @@ export default class FireBaseHelper {
       if (await this.deleteAllByMood(playList[0].mood!)) {
         let pushStatus = new Promise<apiResponse<undefined>>((resolve) => {
           playList.forEach(async (music: music, index: number) => {
-            if (!(await this.addMusic(music))) {
+            if (!(await this.addMusic(music)).success) {
               hasError = true;
             }
 
@@ -101,18 +118,6 @@ export default class FireBaseHelper {
 
       success = true;
     } catch (e) {
-      success = false;
-    }
-    return success;
-  };
-
-  private addMusic = async (music: music) => {
-    let success;
-    try {
-      await addDoc(collection(this.firestore, music.mood!), music);
-      success = true;
-    } catch (e) {
-      console.log(e);
       success = false;
     }
     return success;
