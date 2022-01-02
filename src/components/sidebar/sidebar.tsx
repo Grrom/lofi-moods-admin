@@ -2,7 +2,7 @@ import SidebarItem from "./sidebar-item";
 import "./sidebar.scss";
 import { useState } from "react";
 import { mood } from "../../types/types";
-import { ApiHelper } from "../../App";
+import { ApiHelper, fireBaseHelper } from "../../App";
 import { MiniLoader } from "../misc/loader";
 
 import playlist from "../../assets/playlist.svg";
@@ -57,6 +57,7 @@ export default function SideBar({
 
                 if (addMoodRes.success) {
                   Helpers.successAlert(addMoodRes.message);
+                  fireBaseHelper.addMood(value);
                   addMood(addMoodRes.data);
                 } else {
                   Helpers.errorAlert(addMoodRes.message);

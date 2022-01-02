@@ -4,14 +4,16 @@ import {
   doc,
   deleteDoc,
   getDocs,
+  where,
+  query,
 } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
-import { apiResponse, music } from "../types/types";
+import { apiResponse, mood, music } from "../types/types";
 
 export default class FireBaseHelper {
   firestore = getFirestore();
 
-  pushPlaylist = async (
+  public pushPlaylist = async (
     playList: Array<music>
   ): Promise<apiResponse<undefined>> => {
     let hasError = false;
@@ -53,15 +55,44 @@ export default class FireBaseHelper {
     }
   };
 
-  private deleteAllByMood = async (mood: string) => {
+  public deleteMood = async (mood: mood) => {
+    try {
+      const moodsRef = collection(this.firestore, "moods");
+      const toDeleteId = (
+        await getDocs(query(moodsRef, where("name", "==", mood)))
+      ).docs[0].id;
+
+      await deleteDoc(doc(moodsRef, toDeleteId));
+
+      this.deleteAllByMood(mood);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  public addMood = async (mood: mood) => {
     let success;
     try {
-      const querySnapshot = await getDocs(collection(this.firestore, mood));
+      await addDoc(collection(this.firestore, "moods"), { name: mood });
+      success = true;
+    } catch (e) {
+      window.alert(e);
+      success = false;
+    }
+    return success;
+  };
+
+  private deleteAllByMood = async (mood: mood) => {
+    let success;
+    try {
+      const querySnapshot = await getDocs(collection(this.firestore, mood!));
       if (querySnapshot.size > 0) {
         await new Promise((resolve) =>
           querySnapshot.forEach(async (fetchedDoc) => {
             await deleteDoc(
-              doc(collection(this.firestore, mood), fetchedDoc.id)
+              doc(collection(this.firestore, mood!), fetchedDoc.id)
             );
             resolve(true);
           })
@@ -81,6 +112,7 @@ export default class FireBaseHelper {
       await addDoc(collection(this.firestore, music.mood!), music);
       success = true;
     } catch (e) {
+      console.log(e);
       success = false;
     }
     return success;
