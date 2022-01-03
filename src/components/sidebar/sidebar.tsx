@@ -53,13 +53,18 @@ export default function SideBar({
             "Enter the name of the mood",
             async (value) => {
               if (value !== "") {
-                let addMoodRes = await fireBaseHelper.addMood(value);
+                value = value.toLowerCase();
+                if (!moods.includes(value)) {
+                  let addMoodRes = await fireBaseHelper.addMood(value);
 
-                if (addMoodRes.success) {
-                  Helpers.successAlert(addMoodRes.message);
-                  addMood(addMoodRes.data);
+                  if (addMoodRes.success) {
+                    Helpers.successAlert(addMoodRes.message);
+                    addMood(addMoodRes.data);
+                  } else {
+                    Helpers.errorAlert(addMoodRes.message);
+                  }
                 } else {
-                  Helpers.errorAlert(addMoodRes.message);
+                  Helpers.errorAlert(`${value} mood already exists`);
                 }
               }
             }
