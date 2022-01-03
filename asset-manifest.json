@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/jeromelalunio.tech/lofi-moods-admin/static/css/main.f36ebd9b.chunk.css",
+    "main.js": "/jeromelalunio.tech/lofi-moods-admin/static/js/main.1cb6e3a1.chunk.js",
+    "main.js.map": "/jeromelalunio.tech/lofi-moods-admin/static/js/main.1cb6e3a1.chunk.js.map",
+    "runtime-main.js": "/jeromelalunio.tech/lofi-moods-admin/static/js/runtime-main.829ee144.js",
+    "runtime-main.js.map": "/jeromelalunio.tech/lofi-moods-admin/static/js/runtime-main.829ee144.js.map",
+    "static/js/2.18e70ca9.chunk.js": "/jeromelalunio.tech/lofi-moods-admin/static/js/2.18e70ca9.chunk.js",
+    "static/js/2.18e70ca9.chunk.js.map": "/jeromelalunio.tech/lofi-moods-admin/static/js/2.18e70ca9.chunk.js.map",
+    "static/js/3.11f02856.chunk.js": "/jeromelalunio.tech/lofi-moods-admin/static/js/3.11f02856.chunk.js",
+    "static/js/3.11f02856.chunk.js.map": "/jeromelalunio.tech/lofi-moods-admin/static/js/3.11f02856.chunk.js.map",
+    "index.html": "/jeromelalunio.tech/lofi-moods-admin/index.html",
+    "static/css/main.f36ebd9b.chunk.css.map": "/jeromelalunio.tech/lofi-moods-admin/static/css/main.f36ebd9b.chunk.css.map",
+    "static/js/2.18e70ca9.chunk.js.LICENSE.txt": "/jeromelalunio.tech/lofi-moods-admin/static/js/2.18e70ca9.chunk.js.LICENSE.txt",
+    "static/media/add.776ab686.svg": "/jeromelalunio.tech/lofi-moods-admin/static/media/add.776ab686.svg",
+    "static/media/hamburger.2a7fc546.svg": "/jeromelalunio.tech/lofi-moods-admin/static/media/hamburger.2a7fc546.svg",
+    "static/media/pause.7eb12db0.svg": "/jeromelalunio.tech/lofi-moods-admin/static/media/pause.7eb12db0.svg",
+    "static/media/play.20181f97.svg": "/jeromelalunio.tech/lofi-moods-admin/static/media/play.20181f97.svg",
+    "static/media/playlist.8b5736a2.svg": "/jeromelalunio.tech/lofi-moods-admin/static/media/playlist.8b5736a2.svg",
+    "static/media/trash.592bd856.svg": "/jeromelalunio.tech/lofi-moods-admin/static/media/trash.592bd856.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.829ee144.js",
+    "static/js/2.18e70ca9.chunk.js",
+    "static/css/main.f36ebd9b.chunk.css",
+    "static/js/main.1cb6e3a1.chunk.js"
+  ]
+}
