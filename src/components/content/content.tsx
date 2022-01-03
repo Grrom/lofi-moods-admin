@@ -2,9 +2,11 @@ import "./content.scss";
 import ActionBar from "./action-bar";
 import ContentItem from "./content-item";
 import { useEffect, useState } from "react";
-import { mood, music } from "../../types/types";
+import { apiResponse, mood, music } from "../../types/types";
 import { Loader } from "../misc/loader";
-import { ApiHelper } from "../../App";
+import { id } from "../../types/types";
+import { fireBaseHelper } from "../../App";
+import Helpers from "../../helpers/helpers";
 
 interface _props {
   selected?: mood;
@@ -19,15 +21,23 @@ export default function Content({ selected, deleteMoodFromState }: _props) {
   useEffect(() => {
     async function getMusic() {
       setGettingMusic(() => true);
-      let _musicList: Array<music> = await ApiHelper.getMusic(selected);
+      let musicResponse: apiResponse<Array<music>> =
+        await fireBaseHelper.fetchMusic(selected);
+
+      if (musicResponse.success) {
+        setMusicList(() => musicResponse.data!);
+      } else {
+        Helpers.errorAlert(musicResponse.message);
+      }
       setGettingMusic(() => false);
-      setMusicList(() => _musicList);
     }
 
-    getMusic();
+    if (selected !== undefined) {
+      getMusic();
+    }
   }, [selected]);
 
-  function deleteMusic(id: number) {
+  function deleteMusic(id: id) {
     setMusicList(() => musicList.filter((obj) => obj.id !== id));
   }
 

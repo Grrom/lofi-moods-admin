@@ -2,12 +2,12 @@ import SidebarItem from "./sidebar-item";
 import "./sidebar.scss";
 import { useState } from "react";
 import { mood } from "../../types/types";
-import { ApiHelper } from "../../App";
 import { MiniLoader } from "../misc/loader";
 
 import playlist from "../../assets/playlist.svg";
 import add from "../../assets/add.svg";
 import Helpers from "../../helpers/helpers";
+import { fireBaseHelper } from "../../App";
 
 interface _props {
   selected?: mood;
@@ -53,7 +53,7 @@ export default function SideBar({
             "Enter the name of the mood",
             async (value) => {
               if (value !== "") {
-                let addMoodRes = await ApiHelper.addMood(value);
+                let addMoodRes = await fireBaseHelper.addMood(value);
 
                 if (addMoodRes.success) {
                   Helpers.successAlert(addMoodRes.message);

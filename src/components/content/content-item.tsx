@@ -1,5 +1,5 @@
-import { apiResponse, music, musicProps } from "../../types/types";
-import { ApiHelper } from "../../App";
+import { apiResponse, music, musicProps, id } from "../../types/types";
+import { fireBaseHelper } from "../../App";
 import { MiniLoader } from "../misc/loader";
 import Helpers from "../../helpers/helpers";
 import { useRef, useState } from "react";
@@ -12,7 +12,7 @@ import ReactPlayer from "react-player/youtube";
 
 interface _props {
   music: music;
-  deleteMe: (id: number) => void;
+  deleteMe: (id: id) => void;
 }
 
 export default function ContentItem({ music, deleteMe }: _props) {
@@ -29,16 +29,18 @@ export default function ContentItem({ music, deleteMe }: _props) {
   const reactPlayer = useRef(null);
   const progressBarContainer = useRef(null);
 
-  async function deleteMusic(id: number) {
+  async function deleteMusic() {
     Helpers.confirmDialog({
       question: "Are you sure you want to delete this music?",
       onConfirm: async () => {
         setDeleting(() => true);
-        let deleteMusic: apiResponse<any> = await ApiHelper.deleteMusic(id);
+        let deleteMusic: apiResponse<any> = await fireBaseHelper.deleteMusic(
+          music
+        );
         setDeleting(() => false);
         if (deleteMusic.success) {
           Helpers.successAlert(deleteMusic.message);
-          deleteMe(id);
+          deleteMe(musicItem.id!);
         } else {
           Helpers.errorAlert(deleteMusic.message);
         }
@@ -47,22 +49,22 @@ export default function ContentItem({ music, deleteMe }: _props) {
     });
   }
 
-  async function editData(id: number, column: string, value: string) {
-    let updateResponse: apiResponse<any> = await ApiHelper.updateMusic(
-      id,
-      column,
+  async function editData(id: id, key: musicProps, value: string) {
+    let updateResponse: apiResponse<any> = await fireBaseHelper.updateMusic(
+      musicItem,
+      key,
       value
     );
-    let idInDom = `${column}-${musicItem[column as musicProps]}`;
+    let idInDom = `${key}-${musicItem[key as musicProps]}`;
 
     value = value.trim();
 
     function fail() {
       Helpers.getById(idInDom)!.textContent =
-        musicItem[column as musicProps]!.toString();
+        musicItem[key as musicProps]!.toString();
     }
 
-    if (musicItem[column as musicProps] === value) {
+    if (musicItem[key as musicProps] === value) {
       fail();
     } else {
       if (value.length <= 0) {
@@ -73,7 +75,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
           Helpers.successAlert("Edited successfully", 1000);
           setMusicItem((current) => {
             let newMusicItem = { ...current };
-            (newMusicItem[column as musicProps] as string) = value;
+            (newMusicItem[key as musicProps] as string) = value;
             return newMusicItem;
           });
         } else {
@@ -134,10 +136,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
             alt="thumbnail"
           />
           <div className="icon-container">
-            <div
-              className="bg-red icon-button"
-              onClick={() => deleteMusic(musicItem.id!)}
-            >
+            <div className="bg-red icon-button" onClick={() => deleteMusic()}>
               {deleting ? (
                 <MiniLoader />
               ) : (

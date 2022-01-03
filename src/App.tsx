@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import LofiMoodsApiHelper from "./api/lofi-moods-api-helper";
 import "./App.scss";
 import Content from "./components/content/content";
 import NavBar from "./components/navbar/navbar";
@@ -7,6 +6,7 @@ import SideBar from "./components/sidebar/sidebar";
 import { initializeApp } from "firebase/app";
 import FireBaseHelper from "./api/firebase-helper";
 import { mood } from "./types/types";
+import Helpers from "./helpers/helpers";
 
 initializeApp({
   apiKey: "AIzaSyDl1rXG54RQlR7FnxPct8oLKYNkurrwNMY",
@@ -19,7 +19,6 @@ initializeApp({
 });
 
 export const fireBaseHelper = new FireBaseHelper();
-export const ApiHelper = new LofiMoodsApiHelper();
 
 export default function App() {
   const [selected, setSelected] = useState(undefined as mood | undefined);
@@ -37,9 +36,13 @@ export default function App() {
   useEffect(() => {
     async function getMoods() {
       setGettingMoods(() => true);
-      let _moods = await ApiHelper.getMoods();
+      let moodsResponse = await fireBaseHelper.fetchMoods();
+      if (moodsResponse.success) {
+        setMoods(() => moodsResponse.data!);
+      } else {
+        Helpers.errorAlert(moodsResponse.message);
+      }
       setGettingMoods(() => false);
-      setMoods(() => _moods);
     }
 
     getMoods();

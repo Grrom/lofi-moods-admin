@@ -3,11 +3,10 @@ import { MiniLoader } from "../misc/loader";
 import Swal from "sweetalert2";
 import Helpers from "../../helpers/helpers";
 import { apiResponse, mood, music } from "../../types/types";
-import { ApiHelper, fireBaseHelper } from "../../App";
 
 import add from "../../assets/add.svg";
-import upload from "../../assets/upload.svg";
 import trash from "../../assets/trash.svg";
+import { fireBaseHelper } from "../../App";
 
 interface _props {
   show: boolean;
@@ -23,15 +22,13 @@ export default function ActionBar({
   addMusic,
   search,
   deleteMoodFromState,
-  playList,
 }: _props) {
   const [addingMusic, setAddingMusic] = useState(false);
   const [deletingMood, setDeletingMood] = useState(false);
-  const [pushingPlaylist, setPushingPlaylist] = useState(false);
 
   async function submit(music: music) {
     setAddingMusic(() => true);
-    let addResponse: apiResponse<music> = await ApiHelper.addMusic(music);
+    let addResponse: apiResponse<music> = await fireBaseHelper.addMusic(music);
     setAddingMusic(() => false);
 
     if (addResponse.success) {
@@ -42,20 +39,10 @@ export default function ActionBar({
     }
   }
 
-  async function pushPlaylist() {
-    setPushingPlaylist(() => true);
-    let pushResponse: apiResponse<undefined> =
-      await fireBaseHelper.pushPlaylist(playList);
-    setPushingPlaylist(() => false);
-
-    if (pushResponse.success) Helpers.successAlert(pushResponse.message);
-    else Helpers.errorAlert(pushResponse.message);
-  }
-
   async function deleteMood() {
     setDeletingMood(() => true);
 
-    let deleteMood = await ApiHelper.deleteMood(selected);
+    let deleteMood = await fireBaseHelper.deleteMood(selected);
 
     if (deleteMood.success) {
       deleteMoodFromState(selected);
@@ -140,12 +127,6 @@ export default function ActionBar({
           isLoading={deletingMood}
           text="Delete Mood"
           icon={trash}
-        />
-        <ActionButton
-          onClick={pushPlaylist}
-          isLoading={pushingPlaylist}
-          text="Push Playlist"
-          icon={upload}
         />
         <ActionButton
           onClick={addMusicDialog}

@@ -7,7 +7,7 @@ export interface music {
   mood: mood;
 }
 
-export type id = number | undefined;
+export type id = string | undefined;
 
 export type mood = string | undefined;
 
