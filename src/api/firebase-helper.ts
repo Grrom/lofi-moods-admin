@@ -131,7 +131,8 @@ export default class FireBaseHelper {
 
       await deleteDoc(doc(moodsRef, toDeleteId));
 
-      this.deleteAllByMood(mood);
+      this.deleteCollection(mood!);
+      this.deleteCollection(`${mood}_chatroom`);
 
       return {
         message: `${mood} successfully deleted`,
@@ -162,25 +163,25 @@ export default class FireBaseHelper {
     }
   };
 
-  private deleteAllByMood = async (mood: mood) => {
-    let success;
+  private deleteCollection = async (collectionName: string) => {
     try {
-      const querySnapshot = await getDocs(collection(this.firestore, mood!));
+      const querySnapshot = await getDocs(
+        collection(this.firestore, collectionName!)
+      );
       if (querySnapshot.size > 0) {
         await new Promise((resolve) =>
           querySnapshot.forEach(async (fetchedDoc) => {
             await deleteDoc(
-              doc(collection(this.firestore, mood!), fetchedDoc.id)
+              doc(collection(this.firestore, collectionName!), fetchedDoc.id)
             );
             resolve(true);
           })
         );
       }
 
-      success = true;
+      return true;
     } catch (e) {
-      success = false;
+      return false;
     }
-    return success;
   };
 }
