@@ -17,10 +17,9 @@ export default class FireBaseHelper {
   public addMusic = async (music: music): Promise<apiResponse<music>> => {
     let response;
     try {
-      let newlyAdded = await addDoc(
-        collection(this.firestore, music.mood!),
-        music
-      );
+      let newlyAdded = await addDoc(collection(this.firestore, music.mood!), {
+        music,
+      });
 
       response = {
         message: `${music.title} added succesfully`,

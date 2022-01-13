@@ -9,6 +9,7 @@ import trash from "../../assets/trash.svg";
 import play from "../../assets/play.svg";
 import pause from "../../assets/pause.svg";
 import ReactPlayer from "react-player/youtube";
+import { Timestamp } from "@firebase/firestore";
 
 interface _props {
   music: music;
@@ -85,6 +86,7 @@ export default function ContentItem({ music, deleteMe }: _props) {
       }
     }
   }
+  console.log(Timestamp.now());
 
   return (
     <div className="content-item">

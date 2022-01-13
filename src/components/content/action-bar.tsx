@@ -7,6 +7,7 @@ import { apiResponse, mood, music } from "../../types/types";
 import add from "../../assets/add.svg";
 import trash from "../../assets/trash.svg";
 import { fireBaseHelper } from "../../App";
+import { Timestamp } from "@firebase/firestore";
 
 interface _props {
   show: boolean;
@@ -53,6 +54,7 @@ export default function ActionBar({
   }
 
   function addMusicDialog() {
+    //TODO: support mobile view
     Swal.fire({
       title: "Enter Details",
       html:
@@ -92,6 +94,7 @@ export default function ActionBar({
           owner: Helpers.inputGetter("musicOwner"),
           link: Helpers.inputGetter("musicLink"),
           mood: selected,
+          dateAdded: Timestamp.now(),
         });
       }
     });

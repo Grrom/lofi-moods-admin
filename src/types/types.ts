@@ -1,3 +1,5 @@
+import { Timestamp } from "@firebase/firestore";
+
 export type musicProps = "id" | "title" | "owner" | "link" | "mood";
 export interface music {
   id?: id;
@@ -5,6 +7,7 @@ export interface music {
   owner: string;
   link: string;
   mood: mood;
+  dateAdded: Timestamp;
 }
 
 export type id = string | undefined;
