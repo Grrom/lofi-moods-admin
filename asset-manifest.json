@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/lofi-moods-admin/static/css/main.f36ebd9b.chunk.css",
-    "main.js": "/lofi-moods-admin/static/js/main.3d11b6b2.chunk.js",
-    "main.js.map": "/lofi-moods-admin/static/js/main.3d11b6b2.chunk.js.map",
+    "main.js": "/lofi-moods-admin/static/js/main.3cbd0fdf.chunk.js",
+    "main.js.map": "/lofi-moods-admin/static/js/main.3cbd0fdf.chunk.js.map",
     "runtime-main.js": "/lofi-moods-admin/static/js/runtime-main.70dae71a.js",
     "runtime-main.js.map": "/lofi-moods-admin/static/js/runtime-main.70dae71a.js.map",
-    "static/js/2.ffc78f23.chunk.js": "/lofi-moods-admin/static/js/2.ffc78f23.chunk.js",
-    "static/js/2.ffc78f23.chunk.js.map": "/lofi-moods-admin/static/js/2.ffc78f23.chunk.js.map",
+    "static/js/2.d1fbe064.chunk.js": "/lofi-moods-admin/static/js/2.d1fbe064.chunk.js",
+    "static/js/2.d1fbe064.chunk.js.map": "/lofi-moods-admin/static/js/2.d1fbe064.chunk.js.map",
     "static/js/3.11f02856.chunk.js": "/lofi-moods-admin/static/js/3.11f02856.chunk.js",
     "static/js/3.11f02856.chunk.js.map": "/lofi-moods-admin/static/js/3.11f02856.chunk.js.map",
     "index.html": "/lofi-moods-admin/index.html",
     "static/css/main.f36ebd9b.chunk.css.map": "/lofi-moods-admin/static/css/main.f36ebd9b.chunk.css.map",
-    "static/js/2.ffc78f23.chunk.js.LICENSE.txt": "/lofi-moods-admin/static/js/2.ffc78f23.chunk.js.LICENSE.txt",
+    "static/js/2.d1fbe064.chunk.js.LICENSE.txt": "/lofi-moods-admin/static/js/2.d1fbe064.chunk.js.LICENSE.txt",
     "static/media/add.776ab686.svg": "/lofi-moods-admin/static/media/add.776ab686.svg",
     "static/media/hamburger.2a7fc546.svg": "/lofi-moods-admin/static/media/hamburger.2a7fc546.svg",
     "static/media/pause.7eb12db0.svg": "/lofi-moods-admin/static/media/pause.7eb12db0.svg",
@@ -21,8 +21,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.70dae71a.js",
-    "static/js/2.ffc78f23.chunk.js",
+    "static/js/2.d1fbe064.chunk.js",
     "static/css/main.f36ebd9b.chunk.css",
-    "static/js/main.3d11b6b2.chunk.js"
+    "static/js/main.3cbd0fdf.chunk.js"
   ]
 }
