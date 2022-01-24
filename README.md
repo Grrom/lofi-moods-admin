@@ -1,3 +1,3 @@
 # Lofi moods admin web client
 
-### for managing playlists in [![https://jeromelalunio.tech/lofi-moods]lofi-moods
+### for managing playlists in [Lofi-moods](https://jeromelalunio.tech/lofi-moods)
