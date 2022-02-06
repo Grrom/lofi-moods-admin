@@ -7,6 +7,8 @@ import { initializeApp } from "firebase/app";
 import FireBaseHelper from "./api/firebase-helper";
 import { mood } from "./types/types";
 import Helpers from "./helpers/helpers";
+import AuthenticationHelper from "./api/authentication-helper";
+import Login from "./components/login/login";
 
 initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,6 +20,18 @@ initializeApp({
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 });
 
+export const authenticationHelper = new AuthenticationHelper(
+  initializeApp({
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  })
+);
+
 export const fireBaseHelper = new FireBaseHelper();
 
 export default function App() {
@@ -25,6 +39,8 @@ export default function App() {
   const [moods, setMoods] = useState([] as Array<mood>);
 
   const [gettingMoods, setGettingMoods] = useState(false);
+
+  const [authUpdater, setAuthUpdater] = useState(1);
 
   const select = (item: mood) => setSelected(() => item);
   const addMood = (item: mood) => setMoods((current) => current.concat(item));
@@ -48,25 +64,29 @@ export default function App() {
     getMoods();
   }, []);
 
-  return (
-    <div id="app">
-      <NavBar
-        selected={selected}
-        select={select}
-        moods={moods}
-        addMood={addMood}
-        gettingMoods={gettingMoods}
-      />
-      <main>
-        <SideBar
+  if (authenticationHelper.auth.currentUser !== null && authUpdater > 0) {
+    return (
+      <div id="app">
+        <NavBar
           selected={selected}
           select={select}
           moods={moods}
           addMood={addMood}
           gettingMoods={gettingMoods}
         />
-        <Content selected={selected} deleteMoodFromState={deleteMood} />
-      </main>
-    </div>
-  );
+        <main>
+          <SideBar
+            selected={selected}
+            select={select}
+            moods={moods}
+            addMood={addMood}
+            gettingMoods={gettingMoods}
+          />
+          <Content selected={selected} deleteMoodFromState={deleteMood} />
+        </main>
+      </div>
+    );
+  } else {
+    return <Login updateAuth={() => setAuthUpdater((current) => current++)} />;
+  }
 }
