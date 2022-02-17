@@ -9,6 +9,7 @@ import { mood } from "./types/types";
 import Helpers from "./helpers/helpers";
 import AuthenticationHelper from "./api/authentication-helper";
 import Login from "./components/login/login";
+import { Loader } from "./components/misc/loader";
 
 initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -40,7 +41,8 @@ export default function App() {
 
   const [gettingMoods, setGettingMoods] = useState(false);
 
-  const [authUpdater, setAuthUpdater] = useState(1);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [checkingLogin, setCheckingLogin] = useState(true);
 
   const select = (item: mood) => setSelected(() => item);
   const addMood = (item: mood) => setMoods((current) => current.concat(item));
@@ -61,10 +63,30 @@ export default function App() {
       setGettingMoods(() => false);
     }
 
-    getMoods();
+    if (loggedIn) getMoods();
+  }, [loggedIn]);
+
+  useEffect(() => {
+    async function checkLoggedIn() {
+      authenticationHelper.auth.onAuthStateChanged(async () => {
+        let isLoggedIn = await authenticationHelper.isAdmin();
+        setLoggedIn(() => isLoggedIn);
+        setCheckingLogin(() => false);
+      });
+    }
+
+    checkLoggedIn();
   }, []);
 
-  if (authenticationHelper.auth.currentUser !== null && authUpdater > 0) {
+  if (checkingLogin) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (loggedIn) {
     return (
       <div id="app">
         <NavBar
@@ -87,6 +109,6 @@ export default function App() {
       </div>
     );
   } else {
-    return <Login updateAuth={() => setAuthUpdater((current) => current++)} />;
+    return <Login updateAuth={() => setLoggedIn(() => true)} />;
   }
 }

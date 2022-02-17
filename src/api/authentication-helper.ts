@@ -7,9 +7,12 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   updateCurrentUser,
+  signOut,
 } from "firebase/auth";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { fireBaseHelper } from "../App";
+import AlertHelper from "../helpers/alert-helper";
+import Helpers from "../helpers/helpers";
 
 export default class AuthenticationHelper {
   auth: Auth;
@@ -19,21 +22,33 @@ export default class AuthenticationHelper {
   };
 
   public login = async (email: string, password: string) => {
-    let userCredentials = await signInWithEmailAndPassword(
-      this.auth,
-      email,
-      password
-    );
-    let userData = (
-      await getDoc(
-        doc(
-          collection(fireBaseHelper.firestore, "users"),
-          userCredentials.user.uid
-        )
-      )
-    ).data();
+    await signInWithEmailAndPassword(this.auth, email, password);
+    return this.isAdmin();
+  };
 
-    return userData !== undefined && userData["isAdmin"] === true;
+  public isAdmin = async () => {
+    if (this.auth.currentUser !== null) {
+      let userData = (
+        await getDoc(
+          doc(
+            collection(fireBaseHelper.firestore, "users"),
+            this.auth.currentUser.uid
+          )
+        )
+      ).data();
+
+      if (userData !== undefined && userData["isAdmin"] !== true) {
+        AlertHelper.infoAlert(
+          "Sorry, This account does not have admin privileges, Please contact a super admin to request admin access."
+        );
+        signOut(this.auth);
+        return false;
+      }
+      return userData !== undefined && userData["isAdmin"] === true;
+    } else {
+      console.log("no user");
+      return false;
+    }
   };
 
   public resetPassword = (email: string) => {
@@ -50,5 +65,12 @@ export default class AuthenticationHelper {
 
   constructor(firebaseInstance: FirebaseApp) {
     this.auth = getAuth(firebaseInstance);
+    // document.cookie = `rememberAdmin=; expires=${new Date()}`;
+    console.log("hehe");
+    console.log(Helpers.getCookie("rememberAdmin"));
+    // signOut(this.auth);
+    if (Helpers.getCookie("rememberAdmin") !== "true") {
+      signOut(this.auth);
+    }
   }
 }

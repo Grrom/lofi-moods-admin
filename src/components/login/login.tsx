@@ -7,7 +7,7 @@ import "./login.scss";
 
 export default function Login({ updateAuth }: { updateAuth: () => void }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   async function submitLogin() {
@@ -26,7 +26,9 @@ export default function Login({ updateAuth }: { updateAuth: () => void }) {
           if (rememberMe) {
             let expiry = new Date();
             expiry.setDate(expiry.getDate() + 30);
-            document.cookie = `admin=${loginResult}; expires=${expiry}; SameSite=Lax`;
+            document.cookie = `rememberAdmin=true; expires=${expiry}; SameSite=Lax`;
+          } else {
+            document.cookie = `rememberAdmin=false; expires=${new Date()}; SameSite=Lax`;
           }
           updateAuth();
         }
@@ -37,7 +39,7 @@ export default function Login({ updateAuth }: { updateAuth: () => void }) {
         setSubmitting(() => false);
       }
     } else {
-      AlertHelper.infoToast("Please Fill All Fields");
+      AlertHelper.infoToast("Please Fill All Fields.");
       setSubmitting(() => false);
     }
   }
@@ -47,8 +49,8 @@ export default function Login({ updateAuth }: { updateAuth: () => void }) {
       <div className="login-form">
         <h1 className="login-title">Admin Login</h1>
         <div className="form">
-          <h4 className="label">Username</h4>
-          <input id="username" type="text" className="swal2-input input" />
+          <h4 className="label">Email</h4>
+          <input id="username" type="email" className="swal2-input input" />
           <h4 className="label">Password</h4>
           <input
             id="password"
