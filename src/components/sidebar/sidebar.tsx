@@ -5,9 +5,11 @@ import { mood } from "../../types/types";
 import { MiniLoader } from "../misc/loader";
 
 import playlist from "../../assets/playlist.svg";
+import logout from "../../assets/logout.svg";
 import add from "../../assets/add.svg";
 import Helpers from "../../helpers/helpers";
-import { fireBaseHelper } from "../../App";
+import { authenticationHelper, fireBaseHelper } from "../../App";
+import AlertHelper from "../../helpers/alert-helper";
 
 interface _props {
   selected?: mood;
@@ -98,6 +100,19 @@ export default function SideBar({
       ) : (
         ""
       )}
+      <SidebarItem
+        label="Logout"
+        imagesrc={logout}
+        isSelected={false}
+        onClick={() =>
+          AlertHelper.confirmDialog({
+            question: "Are you sure you want to logout?",
+            onConfirm: () => {
+              authenticationHelper.logout();
+            },
+          })
+        }
+      />
     </div>
   );
 }

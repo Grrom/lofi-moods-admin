@@ -26,6 +26,10 @@ export default class AuthenticationHelper {
     return this.isAdmin();
   };
 
+  public logout = () => {
+    signOut(this.auth);
+  };
+
   public isAdmin = async () => {
     if (this.auth.currentUser !== null) {
       let userData = (
